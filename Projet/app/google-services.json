@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "460012266865",
+    "firebase_url": "https://tdm2projet.firebaseio.com",
+    "project_id": "tdm2projet",
+    "storage_bucket": "tdm2projet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460012266865:android:101eb6f1abf2e9cd",
+        "android_client_info": {
+          "package_name": "innotech.td3exo3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460012266865-p7u66td1lf1b7uo8bii0h7dcafnub302.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "innotech.td3exo3",
+            "certificate_hash": "111dcb9dec94519fc94ef79c6c12440cfb9c8d0b"
+          }
+        },
+        {
+          "client_id": "460012266865-5mekjrn5ethjo89h91i8nnl32nbu6q6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM_-JD3AJlEXs3l66dvBVGPljEtVASO8g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460012266865-5mekjrn5ethjo89h91i8nnl32nbu6q6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

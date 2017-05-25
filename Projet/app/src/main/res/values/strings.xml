@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TDM2_Assure-me</string>
+    <string name="date">Date</string>
+    <string name="type">Type de laccident</string>
+    <string name="lieu">Lieu</string>
+
+
+</resources>

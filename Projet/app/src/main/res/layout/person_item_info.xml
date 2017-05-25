@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="33dp"
+        android:background="@drawable/rectangle"
+        android:elevation="2dp"
+        android:layout_below="@+id/listView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="158dp"
+            android:layout_height="match_parent"
+            android:id="@+id/nom"
+            android:hint="nom"
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/editText2"
+            android:layout_toStartOf="@+id/editText2" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/prenom"
+            android:hint="prenom"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </LinearLayout>
+</LinearLayout>

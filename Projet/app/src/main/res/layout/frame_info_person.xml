@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:id="@+id/listView">
+    </ListView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:elevation="2dp"
+        android:layout_below="@+id/listView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <EditText
+        android:layout_width="186dp"
+        android:layout_height="50dp"
+        android:id="@+id/editText"
+        android:hint="nom"
+        android:layout_toLeftOf="@+id/editText2"
+        android:layout_toStartOf="@+id/editText2" />
+
+    <EditText
+        android:layout_width="183dp"
+        android:layout_height="50dp"
+        android:id="@+id/editText2"
+        android:hint="prenom"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+    </LinearLayout>
+
+
+</RelativeLayout>
