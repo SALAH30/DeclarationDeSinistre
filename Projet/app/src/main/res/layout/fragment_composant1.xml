@@ -1,0 +1,130 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="innotech.td3exo3.DetailInfoFragment"
+    >
+
+
+    <EditText
+        android:hint="date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateview"
+        android:layout_alignBaseline="@+id/date"
+        android:layout_alignBottom="@+id/date"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="129dp"
+        android:layout_marginEnd="129dp"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="Type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/date"
+        android:layout_alignStart="@+id/date"
+        android:layout_marginTop="28dp"
+        android:id="@+id/textView5"
+        android:textSize="24sp" />
+
+    <EditText
+        android:hint="type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_alignRight="@+id/dateview"
+        android:layout_alignEnd="@+id/dateview"
+        android:id="@+id/typeView"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="Lieu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lieu"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/date"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"
+        android:layout_marginTop="32dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignRight="@+id/lieu"
+        android:layout_alignEnd="@+id/lieu" />
+
+    <TextView
+        android:text="Montant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
+        android:id="@+id/montant"
+        android:textSize="24sp"
+        android:layout_below="@+id/lieu"
+        android:layout_alignLeft="@+id/date"
+        android:layout_alignStart="@+id/date" />
+
+    <TextView
+        android:text="Liste des personnes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="43dp"
+        android:id="@+id/textView10"
+        android:textSize="24sp"
+        android:layout_below="@+id/montantView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:hint="listePerssons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listePersonneView"
+        android:layout_marginTop="13dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/textView10"
+        android:layout_alignLeft="@+id/montant"
+        android:layout_alignStart="@+id/montant" />
+
+    <EditText
+        android:hint="montant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/montantView"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/montant"
+        android:layout_alignBottom="@+id/montant"
+        android:layout_alignLeft="@+id/typeView"
+        android:layout_alignStart="@+id/typeView" />
+
+    <EditText
+        android:hint="Lieu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lieuview"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_alignBaseline="@+id/lieu"
+        android:layout_alignBottom="@+id/lieu"
+        android:layout_alignRight="@+id/dateview"
+        android:layout_alignEnd="@+id/dateview" />
+
+    <Button
+        android:text="Modifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/modifier"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

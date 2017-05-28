@@ -29,6 +29,8 @@ import android.widget.VideoView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -58,6 +60,7 @@ public class InfoActivity extends AppCompatActivity {
     ImageView photo;
     ImageView add;
     TextView lieu;
+    EditText montant;
     Bitmap photo_bitmap;
     private String photoPath;
     EditText name;
@@ -67,12 +70,9 @@ public class InfoActivity extends AppCompatActivity {
     boolean capture = true;
     Button envoyer;
     String s;
-
     StorageReference photoStoragePath, videoStoragePath;
     Uri uriPhoto, uriVideo;
-
     static final int REQUEST_VIDEO_CAPTURE = 1;
-
     private static final int GALERY_INTENT = 2;
 
     private FirebaseDatabase database;
@@ -83,13 +83,14 @@ public class InfoActivity extends AppCompatActivity {
 
     private long taille = 0;
 
-
-
-
+    private boolean selectPhotoDone = false;
+    private boolean selectVideoDone = false;
 
     private static int RESULT_LOAD_IMAGE = 1;
     public static StorageReference mStorageRef;
     public static Uri file;
+    SessionManager sessionManager;
+    String idUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,14 +98,19 @@ public class InfoActivity extends AppCompatActivity {
         //database.getInstance().setPersistenceEnabled(true);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         database = FirebaseDatabase.getInstance();
+        //database.getInstance().setPersistenceEnabled(true);
         mRootReference = database.getReference();
-        mChildReference = mRootReference.child("dossiers");
 
+        mChildReference = mRootReference.child("dossiers");
         FirebaseStorage storage = FirebaseStorage.getInstance();
         mStorageRef = storage.getReference();
 
+        sessionManager= new SessionManager(getApplication());
+        idUser = sessionManager.getIdUser();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
+
         type = (TextView) findViewById(R.id.type);
         type.setText(getIntent().getStringExtra("type"));
 
@@ -119,16 +125,14 @@ public class InfoActivity extends AppCompatActivity {
         day_x = calender.get(Calendar.DAY_OF_MONTH);
         date.setText(day_x + " - " + (month_x+1) + " - " + year_x);
         lieu = (EditText) findViewById(R.id.lieu);
-
+        montant = (EditText) findViewById(R.id.montant);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 showDatePicker();
             }
         });
-
         photo = (ImageView) findViewById(R.id.photo);
-
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,18 +152,12 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
 
-   /*     FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        ft.add(R.id.info_perso , new PersonFragment());
-        ft.commit();*/
-
-        /*Dossier personne1 = new Dossier("Boukhetta", "Salah Eddine");
-        data.add(personne1);
-*/
-        adapter=new PersonAdapter(this,data);
+        adapter = new PersonAdapter(this,data);
 
         ListView listView = (ListView) findViewById(R.id.info_perso);
         listView.setAdapter(adapter);
+
+        data.add(new Personne("Nom", "Penom"));
 
         name = (EditText) findViewById(R.id.name);
         prename = (EditText) findViewById(R.id.prename);
@@ -167,7 +165,6 @@ public class InfoActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String nom = name.getText().toString();
                 String prenom = prename.getText().toString();
                 data.add(new Personne(nom,prenom));
@@ -175,10 +172,8 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
 
-/*        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
+/*      FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("scores");
-
         scoresRef.keepSynced(true);
 */
 
@@ -189,7 +184,7 @@ public class InfoActivity extends AppCompatActivity {
         envoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (/*data.size()>1 && !lieu.getText().toString().equals("")*/ true){
+                if (data.size()>1 && !lieu.getText().toString().equals("") && !montant.getText().toString().equals("")){
                     Log.i("Send email", "");
                     String[] TO = {"dt_mecharnia@esi.dz"};
                     String[] CC = {""};
@@ -202,7 +197,6 @@ public class InfoActivity extends AppCompatActivity {
                         listeDesPersonne += "- Nom de la personne " + (i) + " : " + data.get(i).getName() + " .";
                         listeDesPersonne += "\n- Prénomom de la personne " + (i) + " : " + data.get(i).getPrename() + " .\n";
                     }
-                    Toast.makeText(InfoActivity.this, message, Toast.LENGTH_SHORT).show();
 
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
 
@@ -217,46 +211,53 @@ public class InfoActivity extends AppCompatActivity {
 
                     // Write a message to the database
 
-                    /*FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+                    System.out.println("ID dossier : " + idUser);
 
-                    DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("scores");
-
-                    scoresRef.keepSynced(true);*/
-
-
-
-                    /*database.getReference("dossiers").child("dossier" + taille).child("type").setValue(getIntent().getStringExtra("type"));
-                    database.getReference("dossiers").child("dossier" + taille).child("lieu").setValue(lieu.getText().toString());
-                    database.getReference("dossiers").child("dossier" + taille).child("date").setValue(day_x + " - " + (month_x+1) + " - " + year_x);
-                    database.getReference("dossiers").child("dossier" + taille).child("liste").setValue(listeDesPersonne);
-                    database.getReference("dossiers").child("dossier" + taille).child("photo").setValue("9");
-                    database.getReference("dossiers").child("dossier" + taille).child("video").setValue("9");
-                    database.getReference("dossiers").child("dossier" + taille).child("monton").setValue("9");*/
-
-                    //StorageReference photopath = mStorage.child("Photos").child(photoStoragePath.getLastPathSegment());
-                    //StorageReference videopath = mStorage.child("Videos").child(videoStoragePath.getLastPathSegment());
-/*
-                    photoStoragePath.putFile(uriPhoto).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(InfoActivity.this, "Upload donne", Toast.LENGTH_SHORT).show();
+                    myRef.child(idUser + taille).child("id").setValue(idUser + taille);
+                    myRef.child(idUser + taille).child("type").setValue(type.getText().toString());
+                    myRef.child(idUser + taille).child("etat").setValue("ouvert");
+                    myRef.child(idUser + taille).child("lieu").setValue(lieu.getText().toString());
+                    Log.d("--lieu :", lieu.getText().toString());
+                    myRef.child(idUser + taille).child("date").setValue(date.getText().toString());
+                    myRef.child(idUser + taille).child("liste").setValue(listeDesPersonne);
+                    if (selectPhotoDone) {
+                        /*MyIntentService.uriFile=uriPhoto;
+                        Toast.makeText(InfoActivity.this,uriPhoto.toString(),Toast.LENGTH_LONG).show();
+                        file = uriPhoto;
+                        try {
+                            MyIntentService.strm = getContentResolver().openInputStream(uriPhoto);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
-                    });*/
-/*
-                    videoStoragePath.putFile(videoStoragePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(InfoActivity.this, "Upload donne", Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent(InfoActivity.this, MyIntentService.class);
+                        intent1.putExtra("uri", uriPhoto);
+                        startService(intent1);*/
+                        myRef.child(idUser + taille).child("photo").setValue(uriPhoto.toString());
+                        Log.d("--uri  :", uriPhoto.toString());
+                    }
+
+                    //myRef.child(idUser + taille).child("photo").setValue(photoStoragePath.toString());
+
+                    if (selectVideoDone) {
+                        /*Log.d("+2+ Video : ", uriVideo.toString());
+                        MyIntentService.uriFile=uriVideo;
+                        Toast.makeText(InfoActivity.this,uriVideo.toString(),Toast.LENGTH_LONG).show();
+
+                        file = uriVideo;
+                        try {
+                            MyIntentService.strm = getContentResolver().openInputStream(uriVideo);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
-                    });
-*/
-                    myRef.child("dossier" + taille).child("type").setValue(getIntent().getStringExtra("type"));
-                    myRef.child("dossier" + taille).child("lieu").setValue(lieu.getText().toString());
-                    myRef.child("dossier" + taille).child("date").setValue(day_x + " - " + (month_x+1) + " - " + year_x);
-                    myRef.child("dossier" + taille).child("liste").setValue(listeDesPersonne);
-                    //myRef.child("dossier" + taille).child("photo").setValue(photoStoragePath.toString());
-                    //myRef.child("dossier" + taille).child("video").setValue(videoStoragePath.toString());
-                    myRef.child("dossier" + taille).child("monton").setValue("10000");
+                        Intent intent2 = new Intent(InfoActivity.this, MyIntentService.class);
+                        intent2.putExtra("uri", uriVideo);
+                        startService(intent2);*/
+
+                        myRef.child(idUser + taille).child("video").setValue(uriVideo.toString());
+                        Log.d("--uriVideo  :", uriVideo.toString());
+                    }
+                  //  myRef.child(idUser + taille).child("video").setValue(videoStoragePath.toString());
+                    myRef.child(idUser + taille).child("montant").setValue(montant.getText().toString());
 
                     taille ++;
 
@@ -269,32 +270,10 @@ public class InfoActivity extends AppCompatActivity {
                     }
                 }
                 else {
-
                     Toast.makeText(InfoActivity.this, "Il faut remplire tous les champs.", Toast.LENGTH_SHORT).show();
-
                 }
-
             }
         });
-
-        /*myRef2.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String dossier = dataSnapshot.getValue(String.class);
-
-                taille = dataSnapshot.getChildrenCount();
-                Toast.makeText(InfoActivity.this, "+++++" + taille, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(InfoActivity.this, "Failed to read value.", Toast.LENGTH_SHORT).show();
-                //Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });*/
     }
 
     @Override
@@ -303,29 +282,23 @@ public class InfoActivity extends AppCompatActivity {
         mChildReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String dossier = dataSnapshot.child("dossier").getValue(String.class);
                 taille = dataSnapshot.getChildrenCount();
-                Toast.makeText(InfoActivity.this, "----"+taille+"---", Toast.LENGTH_SHORT).show();
-                Toast.makeText(InfoActivity.this, dossier, Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(InfoActivity.this, "Failed to read value.", Toast.LENGTH_SHORT).show();
             }
-        });
+          });
     }
 
     private void showDatePicker() {
 
         DatePickerFragment date = new DatePickerFragment();
-
         Bundle args = new Bundle();
         args.putInt("year", year_x);
         args.putInt("month", month_x);
         args.putInt("day", day_x);
         date.setArguments(args);
-
         date.setCallBack(ondate);
         date.show(getFragmentManager(), "Date Picker");
     }
@@ -386,8 +359,11 @@ public class InfoActivity extends AppCompatActivity {
                         startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
                     }
                 } else if (options[item].equals("Choisir depuis la galerie")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, 2);
+                    /*Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);*/
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("video/*");
+                    startActivityForResult(intent, GALERY_INTENT);
                 } else if (options[item].equals("Quitter")) {
                     dialog.dismiss();
                 }
@@ -461,10 +437,23 @@ public class InfoActivity extends AppCompatActivity {
                     photoPath = "ACC_" + s;
                     createDirectoryAndSaveFile(photo_bitmap, photoPath);
 
+                    System.out.println("ID dossier Photo DATA : " + data.getData());
 
+                    uriPhoto = data.getData();
 
+                    MyIntentService.uriFile=uriPhoto;
+                    //Toast.makeText(InfoActivity.this,uriPhoto.toString(),Toast.LENGTH_LONG).show();
+                    file = uriPhoto;
+                    try {
+                        MyIntentService.strm = getContentResolver().openInputStream(uriPhoto);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent1 = new Intent(InfoActivity.this, MyIntentService.class);
+                    intent1.putExtra("uri", uriPhoto);
+                    startService(intent1);
 
-                    Uri selectedImage = data.getData();
+                    /*Uri selectedImage = data.getData();
                     MyIntentService.uriFile=selectedImage;
                     Toast.makeText(InfoActivity.this,selectedImage.toString(),Toast.LENGTH_LONG).show();
 
@@ -476,12 +465,13 @@ public class InfoActivity extends AppCompatActivity {
                     }
                     Intent intent = new Intent(this, MyIntentService.class);
                     intent.putExtra("uri", selectedImage);
-                    startService(intent);
+                    startService(intent);*/
                 }
 
 
-                /*uriPhoto = data.getData();
-                photoStoragePath = mStorage.child("Photos").child(uriPhoto.getLastPathSegment());*/
+
+                //photoStoragePath = mStorage.child("Photos").child(uriPhoto.getLastPathSegment());
+                selectPhotoDone = true;
             }
             else {
                 video.setVideoURI(data.getData());
@@ -489,8 +479,28 @@ public class InfoActivity extends AppCompatActivity {
                 video.requestFocus();
                 video.start();
 
-                /*uriVideo = data.getData();
-                photoStoragePath = mStorage.child("Videos").child(uriVideo.getLastPathSegment());*/
+                System.out.println("ID dossier Video DATA : " + data.getData());
+
+                uriVideo = data.getData();
+                //photoStoragePath = mStorage.child("Videos").child(uriVideo.getLastPathSegment());
+                selectVideoDone = true;
+                Log.d("+1+ Video : ", uriVideo.toString());
+                Toast.makeText(this, "DONE", Toast.LENGTH_SHORT).show();
+
+                Log.d("+2+ Video : ", uriVideo.toString());
+                MyIntentService.uriFile=uriVideo;
+
+                file = uriVideo;
+                try {
+                    MyIntentService.strm = getContentResolver().openInputStream(uriVideo);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Intent intent2 = new Intent(InfoActivity.this, MyIntentService.class);
+                intent2.putExtra("uri", uriVideo);
+                startService(intent2);
+
+
             }
 
         }
@@ -574,14 +584,14 @@ public class InfoActivity extends AppCompatActivity {
 
     private void createDirectoryAndSaveFile(Bitmap imageToSave, String fileName) {
 
-        File direct = new File(Environment.getExternalStorageDirectory() + "/.Supermama");
+        File direct = new File(Environment.getExternalStorageDirectory() + "/.AssureMe");
 
         if (!direct.exists()) {
-            File wallpaperDirectory = new File("/sdcard/.Supermama/");
+            File wallpaperDirectory = new File("/sdcard/.AssureMe/");
             wallpaperDirectory.mkdirs();
         }
 
-        File file = new File(new File("/sdcard/.Supermama/"), fileName);
+        File file = new File(new File("/sdcard/.AssureMe/"), fileName);
         if (file.exists()) {
             file.delete();
         }

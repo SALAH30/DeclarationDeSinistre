@@ -1,12 +1,14 @@
 package innotech.td3exo3;
 
+import java.io.Serializable;
+
 /**
  * Created by Mon pc on 14/04/2017.
  */
 
-public class Dossier {
-    private String name;
-    private String prename;
+public class Dossier implements Serializable{
+    private String type;
+    private String id;
     private String lieu;
     private String date;
     private String photo;
@@ -15,9 +17,9 @@ public class Dossier {
     private String etat;
     private float montant;
 
-    public Dossier(String name, String prename, String lieu, String date, String photo, String video, String information, String etat, float montant) {
-        this.name = name;
-        this.prename = prename;
+    public Dossier(String id, String type, String lieu, String date, String photo, String video, String information, String etat, float montant) {
+        this.id = id;
+        this.type = type;
         this.lieu = lieu;
         this.date = date;
         this.photo = photo;
@@ -27,12 +29,12 @@ public class Dossier {
         this.montant = montant;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public String getPrename() {
-        return prename;
+    public String getType() {
+        return type;
     }
 
     public String getLieu() {
@@ -63,12 +65,12 @@ public class Dossier {
         return montant;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setPrename(String prename) {
-        this.prename = prename;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setLieu(String lieu) {

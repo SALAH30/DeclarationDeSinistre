@@ -40,7 +40,7 @@ public class TypeAdapter extends ArrayAdapter {
                 if(isTwopane()){
                    // printDetails(type);
                 }else{
-                    Intent intent = new Intent(context, InfoActivity.class);
+                    Intent intent = new Intent(context, DossierActivity.class);
                     intent.putExtra("type", type.getType());
                     context.startActivity(intent);
                 }

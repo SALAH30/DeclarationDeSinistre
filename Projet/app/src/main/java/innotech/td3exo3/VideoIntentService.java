@@ -27,14 +27,14 @@ import java.io.InputStream;
  * Created by PC on 24/05/2017.
  */
 
-public class MyIntentService extends IntentService {
+public class VideoIntentService extends IntentService {
     public static Uri uriFile;
     public static InputStream strm;
 
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     // Create a storage reference from our app
-    StorageReference storageRef = storage.getReference("files");
+    StorageReference storageRef = storage.getReference("Videos");
 
     //private DatabaseReference databaseReference ;
     //private FirebaseDatabase mFirebaseInstance;
@@ -45,8 +45,10 @@ public class MyIntentService extends IntentService {
     Integer notificationID = 1001;
     static int count = 0;
 
-    public MyIntentService() {
-        super("MyIntentService");
+    public VideoIntentService() {
+        super("VideoIntentService");
+
+
     }
 
     @Override
@@ -69,7 +71,7 @@ public class MyIntentService extends IntentService {
             notificationManager.notify(notificationID, noti);*/
 
 
-            uploadOldPhoto();
+            uploadVideo();
 
 
         } catch (Exception ex) {
@@ -79,7 +81,7 @@ public class MyIntentService extends IntentService {
     }
 
 
-    private void uploadOldPhoto() {
+    private void uploadVideo() {
 
         int bytes = 0;
         try {

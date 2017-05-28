@@ -30,44 +30,6 @@
         android:layout_toLeftOf="@+id/lieu"
         android:layout_toStartOf="@+id/lieu" />
 
-    <EditText
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Nom"
-        android:gravity="center"
-        android:ems="10"
-
-        android:layout_below="@+id/info_perso"
-        android:layout_alignLeft="@+id/info_perso"
-        android:layout_alignStart="@+id/info_perso"
-        android:id="@+id/name"
-        android:layout_alignRight="@+id/video"
-        android:layout_alignEnd="@+id/video"
-        android:layout_width="wrap_content" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Prenom"
-        android:gravity="center"
-        android:ems="10"
-        android:id="@+id/prename"
-        android:layout_below="@+id/info_perso"
-        android:layout_toRightOf="@+id/datetext"
-        android:layout_alignRight="@+id/info_perso"
-        android:layout_alignEnd="@+id/info_perso" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/add"
-        android:layout_alignBottom="@+id/prename"
-        android:layout_alignRight="@+id/prename"
-        android:layout_alignEnd="@+id/prename"
-        android:layout_below="@+id/info_perso" />
-
     <VideoView
         android:id="@+id/video"
         android:layout_width="155dp"
@@ -86,19 +48,20 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
+
+    <EditText
+        android:hint="listePerssons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/info_perso"
-        android:background="@drawable/rectangle"
-        android:elevation="4dp"
+        android:layout_marginTop="13dp"
+        android:textSize="18sp"
         android:layout_below="@+id/lieu"
         android:layout_alignLeft="@+id/datetext"
         android:layout_alignStart="@+id/datetext"
         android:layout_alignRight="@+id/lieu"
-        android:layout_alignEnd="@+id/lieu">
+        android:layout_alignEnd="@+id/lieu" />
 
-    </ListView>
 
     <ImageView
         app:srcCompat="@android:drawable/ic_menu_camera"
@@ -129,9 +92,9 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:id="@+id/button"
-        android:layout_below="@+id/montant"
-        android:layout_alignLeft="@+id/montant"
-        android:layout_alignStart="@+id/montant"
-        android:layout_marginTop="13dp" />
+        android:layout_marginBottom="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/video"
+        android:layout_alignStart="@+id/video" />
 
 </RelativeLayout>
